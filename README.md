@@ -7,14 +7,14 @@ A private Telegram bot that serves as a digital time vault for precious memories
 This project creates a secure, private space where family members can capture and preserve precious moments throughout a child's life. Think of it as a digital time capsule that grows richer with each memory shared.
 
 **The Journey:**
-- **Years 0-18**: Family members send memories (photos, videos, audio) to the bot
+- **Years 0-18**: Family members send memories (photos, videos, audio, video notes, voice messages) to the bot
 - **Age 18**: The child receives access to the private channel containing all their memories
 - **Result**: A complete, chronological collection of their childhood from the perspective of those who love them most
 
 ## ✨ Features
 
 - **Private & Secure**: Only whitelisted family members can send memories
-- **Media-Rich**: Supports photos, videos, and audio messages
+- **Media-Rich**: Supports photos, videos, audio messages, video notes, and voice messages
 - **Automatic Storage**: All memories are instantly saved to a private channel
 - **Permanent Preservation**: Memories are copied to the channel, so they remain even if originals are deleted
 - **Visual Confirmation**: Bot reacts with 👍 to confirm successful forwarding
@@ -104,7 +104,7 @@ Health check endpoint for monitoring and debugging.
 
 1. **Secret Validation**: Checks the `x-telegram-bot-api-secret-token` header
 2. **User Validation**: Verifies sender is in the whitelist
-3. **Message Type Check**: Only processes video, audio, and photo messages
+3. **Message Type Check**: Only processes video, audio, photo, video note, and voice messages
 4. **Forwarding**: Forwards supported messages to the specified channel
 5. **Error Responses**: Sends appropriate messages to unauthorized users or for unsupported message types
 
@@ -113,6 +113,8 @@ Health check endpoint for monitoring and debugging.
 - ✅ Video messages
 - ✅ Audio messages  
 - ✅ Photo messages
+- ✅ Video notes (circular videos)
+- ✅ Voice messages
 - ❌ Text messages
 - ❌ Documents
 - ❌ Other message types
@@ -120,7 +122,7 @@ Health check endpoint for monitoring and debugging.
 ## 💬 User Messages
 
 - **Unauthorized User**: "You are not allowed to access this time vault, please ask @{admin} to add you."
-- **Unsupported Message Type**: "Only video, audio, and photo messages are supported."
+- **Unsupported Message Type**: "Only video, audio, photo, video note, and voice messages are supported."
 - **Forwarding Error**: "Sorry, there was an error forwarding your message. Please try again later."
 
 ## 🔍 Observability & Debugging
@@ -163,6 +165,6 @@ This behavior is ideal for a time vault - memories are permanently preserved reg
 
 ## 🎁 The Gift of Memories
 
-This project is designed to create something truly special - a comprehensive collection of a child's life from the perspective of those who love them. Every photo, video, and audio message becomes part of a story that will be treasured for a lifetime.
+This project is designed to create something truly special - a comprehensive collection of a child's life from the perspective of those who love them. Every photo, video, audio message, video note, and voice message becomes part of a story that will be treasured for a lifetime.
 
-When the child turns 18, they'll discover not just memories, but the love, care, and attention that went into preserving every precious moment of their journey.
+When the child turns 18, they'll discover not just memories, but the love, care, and attention that went into preserving every precious moment of their journey - from photos and videos to voice messages and video notes capturing their growth and milestones.

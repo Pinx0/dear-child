@@ -62,6 +62,8 @@ export function getMessageType(message: Message): string {
   return message.video ? 'video' : 
          message.audio ? 'audio' : 
          message.photo ? 'photo' : 
+         message.videoNote ? 'video_note' :
+         message.voice ? 'voice' :
          'unsupported';
 }
 
@@ -82,7 +84,7 @@ export async function sendUnsupportedMessageType(senderId: number, requestId: st
   try {
     await bot!.api.sendMessage({
       chat_id: senderId,
-      text: 'Only video, audio, and photo messages are supported.',
+      text: 'Only video, audio, photo, video note, and voice messages are supported.',
     });
   } catch (error) {
     log.error('Failed to send unsupported message type response', { requestId, senderId, error: error instanceof Error ? error.message : 'Unknown error' });
