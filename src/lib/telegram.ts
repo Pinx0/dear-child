@@ -1,5 +1,5 @@
 import { Bot } from 'gramio';
-import type { Update, Message } from 'gramio';
+import type { Update, Message, TelegramReactionTypeEmojiEmoji } from 'gramio';
 import { log } from './logger';
 
 interface MessageData {
@@ -87,12 +87,12 @@ export async function sendUnsupportedMessageType(senderId: number, requestId: st
   }
 }
 
-export async function addMessageReaction(message: Message, requestId: string, senderId: number): Promise<void> {
+export async function addMessageReaction(message: Message, requestId: string, senderId: number, emoji: TelegramReactionTypeEmojiEmoji = '👍'): Promise<void> {
   try {
     await bot!.api.setMessageReaction({
       chat_id: message.chat.id,
       message_id: message.id,
-      reaction: [{ type: 'emoji', emoji: '👍' }]
+      reaction: [{ type: 'emoji', emoji }]
     });
   } catch (error) {
     log.warn('Failed to add reaction to message', { 
@@ -137,16 +137,27 @@ export async function handleCommand(message: Message, requestId: string, senderI
 }
 
 export async function forwardMessage(message: Message, requestId: string, senderId: number, messageType: string): Promise<{ success: boolean; error?: string }> {
+
+  log.info('Forwarding message to channel', 
+    { 
+        requestId, 
+        senderId, 
+        messageType, 
+        channelId: FORWARD_CHANNEL_ID,
+        fromChatId: message.chat.id,
+        messageId: message.id,
+        chatType: message.chat.type
+  });
+  
   try {
-    log.info('Forwarding message to channel', { requestId, senderId, messageType, channelId: FORWARD_CHANNEL_ID });
-    
+   
     const forwardResult = await bot!.api.forwardMessage({
       chat_id: FORWARD_CHANNEL_ID!,
       from_chat_id: message.chat.id,
       message_id: message.id,
     });
 
-    log.info('Message forwarded successfully', { 
+    log.info('Message forwarded successfully', {
         requestId, 
         senderId, 
         messageType, 
@@ -158,16 +169,13 @@ export async function forwardMessage(message: Message, requestId: string, sender
     return { success: true };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    log.error('Error forwarding message', { requestId, senderId, messageType, error: errorMessage });
+    log.error('Error forwarding message', { 
+      error: errorMessage,
+      errorStack: error instanceof Error ? error.stack : undefined
+    });
     
-    try {
-      await bot!.api.sendMessage({
-        chat_id: senderId,
-        text: 'Sorry, there was an error forwarding your message. Please try again later.',
-      });
-    } catch (sendError) {
-      log.error('Failed to send error message to user', { requestId, senderId, error: sendError instanceof Error ? sendError.message : 'Unknown error' });
-    }
+    // Add thumbs down reaction to indicate forwarding failure
+    await addMessageReaction(message, requestId, senderId, '👎');
     
     return { success: false, error: 'Failed to forward message' };
   }
