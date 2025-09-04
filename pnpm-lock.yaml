@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      gramio:
+        specifier: ^0.4.10
+        version: 0.4.10(inspectable@3.0.2)
       next:
         specifier: 15.5.2
         version: 15.5.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -98,6 +101,32 @@ packages:
   '@eslint/plugin-kit@0.3.5':
     resolution: {integrity: sha512-Z5kJ+wU3oA7MMIqVR9tyZRtjYPr4OC004Q4Rw7pgOKUOKkJfZ3O24nz3WYfGRpMDNmcOi3TwQOmgm7B7Tpii0w==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@gramio/callback-data@0.0.3':
+    resolution: {integrity: sha512-fL+fo3c58dIE6cl2yEoG9E4Y+mT+zvpw7PXImcATFVdRcK4mnuDzzxyOOibopzjKNszlHQZXYJer515kBr81RQ==}
+
+  '@gramio/contexts@0.3.0':
+    resolution: {integrity: sha512-ihqQWVpiQgI9dA1HR9IInCOLSBfqUaF4y/1l909T2zw+s/YTQaApn3YqArgtbI00CLVmgpeyZ9tVPvO3X6PeGw==}
+    peerDependencies:
+      '@gramio/types': ^9.1.1
+      inspectable: ^3.0.1
+
+  '@gramio/files@0.3.0':
+    resolution: {integrity: sha512-ZdrwRm57xxWzQ+KxGB5V2aC6raZ9B0yZavkPhd0JzKFUkKS1jbeG3W35qQxdlZZLtD9aeZbjwRAHk4VrRDbpqA==}
+
+  '@gramio/format@0.3.3':
+    resolution: {integrity: sha512-92nqfr0X1jRsXoRdaSu6PS0b8jV5kgMobdj3F+7pHjV/dVn/H76h55+F3lYy44jLhjqQJwpRGwzVSL/+SvSEgA==}
+    peerDependencies:
+      marked: ^15.0.11
+    peerDependenciesMeta:
+      marked:
+        optional: true
+
+  '@gramio/keyboards@1.2.1':
+    resolution: {integrity: sha512-HqCJl9HmLTvckA2fMRc+mC258vBr2zKfMqvFEGEgaeauIIP4n8TTT9GU4YCqVFTGTzGA5I6gnfk87dGZuSP6vA==}
+
+  '@gramio/types@9.2.2':
+    resolution: {integrity: sha512-su/A2Z7oyKr6sLc6UbN4asvYbUqisoWqyqbkyqgb5HW9cFpUTQKtUP5tKuZdar9oOI3e4L+rows4cvNzczT+IA==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -1064,6 +1093,9 @@ packages:
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
+  gramio@0.4.10:
+    resolution: {integrity: sha512-qVzlgWVoB64XiDBj+A8p0oDykTJf6jsLB41er03otqFuM2riSmGXKEtTzw9CvOp04bKrn86cVnjAX5ByZCNezg==}
+
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
 
@@ -1109,6 +1141,10 @@ packages:
   imurmurhash@0.1.4:
     resolution: {integrity: sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA==}
     engines: {node: '>=0.8.19'}
+
+  inspectable@3.0.2:
+    resolution: {integrity: sha512-XHygPjNXXe1TWQLlVdCYLejUklsGGo+XWS3Cn/RlkvnhkbZqcQxoXPrSh7Via5aATYJUMWVnrD5CbW2c+BtKMA==}
+    engines: {node: '>=20.0.0'}
 
   internal-slot@1.1.0:
     resolution: {integrity: sha512-4gd7VpWNQNB4UKKCFFVcp1AVv+FMOgs9NKzjHKusc8jTMhd5eL1NqQqOpE0KzMds804/yHlglp3uxgluOqAPLw==}
@@ -1361,6 +1397,10 @@ packages:
   micromatch@4.0.8:
     resolution: {integrity: sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==}
     engines: {node: '>=8.6'}
+
+  middleware-io@2.8.1:
+    resolution: {integrity: sha512-H0XftkexHKxxQsoCsItMzM7WU3S/rIFzL3T4guU8tWLKr7e5cVkdaZ+JQeeL+TB3OaHpqFi/ozYqQl69z2X6bg==}
+    engines: {node: '>=12.0.0'}
 
   minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
@@ -1860,6 +1900,27 @@ snapshots:
     dependencies:
       '@eslint/core': 0.15.2
       levn: 0.4.1
+
+  '@gramio/callback-data@0.0.3': {}
+
+  '@gramio/contexts@0.3.0(@gramio/types@9.2.2)(inspectable@3.0.2)':
+    dependencies:
+      '@gramio/types': 9.2.2
+      inspectable: 3.0.2
+
+  '@gramio/files@0.3.0':
+    dependencies:
+      '@gramio/types': 9.2.2
+
+  '@gramio/format@0.3.3':
+    dependencies:
+      '@gramio/types': 9.2.2
+
+  '@gramio/keyboards@1.2.1':
+    dependencies:
+      '@gramio/types': 9.2.2
+
+  '@gramio/types@9.2.2': {}
 
   '@humanfs/core@0.19.1': {}
 
@@ -2937,6 +2998,21 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
+  gramio@0.4.10(inspectable@3.0.2):
+    dependencies:
+      '@gramio/callback-data': 0.0.3
+      '@gramio/contexts': 0.3.0(@gramio/types@9.2.2)(inspectable@3.0.2)
+      '@gramio/files': 0.3.0
+      '@gramio/format': 0.3.3
+      '@gramio/keyboards': 1.2.1
+      '@gramio/types': 9.2.2
+      debug: 4.4.1
+      middleware-io: 2.8.1
+    transitivePeerDependencies:
+      - inspectable
+      - marked
+      - supports-color
+
   graphemer@1.4.0: {}
 
   has-bigints@1.1.0: {}
@@ -2971,6 +3047,8 @@ snapshots:
       resolve-from: 4.0.0
 
   imurmurhash@0.1.4: {}
+
+  inspectable@3.0.2: {}
 
   internal-slot@1.1.0:
     dependencies:
@@ -3212,6 +3290,8 @@ snapshots:
     dependencies:
       braces: 3.0.3
       picomatch: 2.3.1
+
+  middleware-io@2.8.1: {}
 
   minimatch@3.1.2:
     dependencies:
