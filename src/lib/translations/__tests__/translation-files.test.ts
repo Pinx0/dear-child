@@ -9,8 +9,8 @@ describe('Translation Files', () => {
       const requiredKeys: (keyof TranslationKeys)[] = [
         'unauthorized',
         'unsupportedMessageType',
-        'commands.id.groupId',
-        'commands.id.yourId',
+        'commands.id',
+        'commands.help',
       ];
 
       requiredKeys.forEach(key => {
@@ -24,8 +24,8 @@ describe('Translation Files', () => {
       const requiredKeys: (keyof TranslationKeys)[] = [
         'unauthorized',
         'unsupportedMessageType',
-        'commands.id.groupId',
-        'commands.id.yourId',
+        'commands.id',
+        'commands.help',
       ];
 
       requiredKeys.forEach(key => {
@@ -40,8 +40,8 @@ describe('Translation Files', () => {
       const requiredKeys = [
         'unauthorized',
         'unsupportedMessageType',
-        'commands.id.groupId',
-        'commands.id.yourId',
+        'commands.id',
+        'commands.help',
       ].sort();
 
       expect(expectedKeys).toEqual(requiredKeys);
@@ -52,8 +52,8 @@ describe('Translation Files', () => {
       const requiredKeys = [
         'unauthorized',
         'unsupportedMessageType',
-        'commands.id.groupId',
-        'commands.id.yourId',
+        'commands.id',
+        'commands.help',
       ].sort();
 
       expect(expectedKeys).toEqual(requiredKeys);
@@ -69,28 +69,28 @@ describe('Translation Files', () => {
     });
 
     it('should have placeholder placeholders in command responses', () => {
-      expect(enUS['commands.id.groupId']).toContain('{groupId}');
-      expect(enUS['commands.id.yourId']).toContain('{senderId}');
-      expect(esES['commands.id.groupId']).toContain('{groupId}');
-      expect(esES['commands.id.yourId']).toContain('{senderId}');
+      expect(enUS['commands.id']).toContain('{groupId}');
+      expect(enUS['commands.id']).toContain('{senderId}');
+      expect(esES['commands.id']).toContain('{groupId}');
+      expect(esES['commands.id']).toContain('{senderId}');
     });
 
     it('should have different content between languages', () => {
       expect(enUS.unauthorized).not.toBe(esES.unauthorized);
       expect(enUS.unsupportedMessageType).not.toBe(esES.unsupportedMessageType);
-      expect(enUS['commands.id.groupId']).not.toBe(esES['commands.id.groupId']);
-      expect(enUS['commands.id.yourId']).not.toBe(esES['commands.id.yourId']);
+      expect(enUS['commands.id']).not.toBe(esES['commands.id']);
+      expect(enUS['commands.help']).not.toBe(esES['commands.help']);
     });
 
     it('should have reasonable length for all translations', () => {
       Object.values(enUS).forEach(translation => {
         expect(translation.length).toBeGreaterThan(10);
-        expect(translation.length).toBeLessThan(500);
+        expect(translation.length).toBeLessThan(2000); // Help text is longer
       });
 
       Object.values(esES).forEach(translation => {
         expect(translation.length).toBeGreaterThan(10);
-        expect(translation.length).toBeLessThan(500);
+        expect(translation.length).toBeLessThan(2000); // Help text is longer
       });
     });
   });
@@ -100,16 +100,14 @@ describe('Translation Files', () => {
       const countPlaceholders = (text: string) => (text.match(/\{[^}]+\}/g) || []).length;
 
       expect(countPlaceholders(enUS.unauthorized)).toBe(countPlaceholders(esES.unauthorized));
-      expect(countPlaceholders(enUS['commands.id.groupId'])).toBe(countPlaceholders(esES['commands.id.groupId']));
-      expect(countPlaceholders(enUS['commands.id.yourId'])).toBe(countPlaceholders(esES['commands.id.yourId']));
+      expect(countPlaceholders(enUS['commands.id'])).toBe(countPlaceholders(esES['commands.id']));
     });
 
     it('should have same placeholder names in both languages', () => {
       const extractPlaceholders = (text: string) => (text.match(/\{([^}]+)\}/g) || []).map(m => m.slice(1, -1)).sort();
 
       expect(extractPlaceholders(enUS.unauthorized)).toEqual(extractPlaceholders(esES.unauthorized));
-      expect(extractPlaceholders(enUS['commands.id.groupId'])).toEqual(extractPlaceholders(esES['commands.id.groupId']));
-      expect(extractPlaceholders(enUS['commands.id.yourId'])).toEqual(extractPlaceholders(esES['commands.id.yourId']));
+      expect(extractPlaceholders(enUS['commands.id'])).toEqual(extractPlaceholders(esES['commands.id']));
     });
   });
 });

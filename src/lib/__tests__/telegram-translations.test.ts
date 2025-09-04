@@ -69,11 +69,9 @@ describe('Telegram Translation Integration', () => {
       const groupId = -1001234567890;
       const senderId = 987654321;
 
-      const groupResult = translate('commands.id.groupId', { groupId });
-      const userResult = translate('commands.id.yourId', { senderId });
+      const result = translate('commands.id', { groupId, senderId });
 
-      expect(groupResult).toBe('Group ID: `-1001234567890`');
-      expect(userResult).toBe('Your ID: `987654321`');
+      expect(result).toBe('Group ID: `-1001234567890`\nYour ID: `987654321`');
     });
 
     it('should translate ID command responses in Spanish', () => {
@@ -82,11 +80,23 @@ describe('Telegram Translation Integration', () => {
       const groupId = -1001234567890;
       const senderId = 987654321;
 
-      const groupResult = translate('commands.id.groupId', { groupId });
-      const userResult = translate('commands.id.yourId', { senderId });
+      const result = translate('commands.id', { groupId, senderId });
 
-      expect(groupResult).toBe('ID del Grupo: `-1001234567890`');
-      expect(userResult).toBe('Tu ID: `987654321`');
+      expect(result).toBe('ID del Grupo: `-1001234567890`\nTu ID: `987654321`');
+    });
+
+    it('should translate help command in English', () => {
+      const result = translate('commands.help');
+      expect(result).toContain('Dear Child - Memory Time Vault');
+      expect(result).toContain('What to send');
+    });
+
+    it('should translate help command in Spanish', () => {
+      mockEnv.LANGUAGE = 'es-ES';
+      
+      const result = translate('commands.help');
+      expect(result).toContain('Dear Child - Cápsula del Tiempo');
+      expect(result).toContain('Qué enviar');
     });
   });
 
@@ -106,11 +116,10 @@ describe('Telegram Translation Integration', () => {
       const groupId = -1001987654321;
       const senderId = 111222333;
 
-      const groupResult = translate('commands.id.groupId', { groupId });
-      const userResult = translate('commands.id.yourId', { senderId });
+      const result = translate('commands.id', { groupId, senderId });
 
-      expect(groupResult).toContain('-1001987654321');
-      expect(userResult).toContain('111222333');
+      expect(result).toContain('-1001987654321');
+      expect(result).toContain('111222333');
     });
 
     it('should handle language switching mid-session', () => {

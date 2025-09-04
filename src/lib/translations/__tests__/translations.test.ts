@@ -22,8 +22,8 @@ describe('Translation System', () => {
     it('should translate English keys correctly', () => {
       expect(translate('unauthorized')).toBe('You are not allowed to access this time vault, please ask @{adminAlias} to add you. Your ID is: {senderId}');
       expect(translate('unsupportedMessageType')).toBe('Only video, audio, photo, video note, and voice messages are supported.');
-      expect(translate('commands.id.groupId')).toBe('Group ID: `{groupId}`');
-      expect(translate('commands.id.yourId')).toBe('Your ID: `{senderId}`');
+      expect(translate('commands.id')).toBe('Group ID: `{groupId}`\nYour ID: `{senderId}`');
+      expect(translate('commands.help')).toContain('Dear Child - Memory Time Vault');
     });
 
     it('should translate Spanish keys correctly when language is set to es-ES', () => {
@@ -31,8 +31,8 @@ describe('Translation System', () => {
       
       expect(translate('unauthorized')).toBe('No tienes permitido acceder a esta cápsula del tiempo, por favor pide a @{adminAlias} que te agregue. Tu ID es: {senderId}');
       expect(translate('unsupportedMessageType')).toBe('Solo se admiten videos, audios, fotos, notas de video y mensajes de voz.');
-      expect(translate('commands.id.groupId')).toBe('ID del Grupo: `{groupId}`');
-      expect(translate('commands.id.yourId')).toBe('Tu ID: `{senderId}`');
+      expect(translate('commands.id')).toBe('ID del Grupo: `{groupId}`\nTu ID: `{senderId}`');
+      expect(translate('commands.help')).toContain('Dear Child - Cápsula del Tiempo');
     });
   });
 
@@ -50,11 +50,9 @@ describe('Translation System', () => {
       const groupId = -1001234567890;
       const senderId = 987654321;
       
-      const groupResult = translate('commands.id.groupId', { groupId });
-      const userResult = translate('commands.id.yourId', { senderId });
+      const result = translate('commands.id', { groupId, senderId });
       
-      expect(groupResult).toBe('Group ID: `-1001234567890`');
-      expect(userResult).toBe('Your ID: `987654321`');
+      expect(result).toBe('Group ID: `-1001234567890`\nYour ID: `987654321`');
     });
 
     it('should handle multiple placeholders in one string', () => {
@@ -68,8 +66,8 @@ describe('Translation System', () => {
     });
 
     it('should handle numeric replacements', () => {
-      const result = translate('commands.id.groupId', { groupId: 12345 });
-      expect(result).toBe('Group ID: `12345`');
+      const result = translate('commands.id', { groupId: 12345, senderId: 67890 });
+      expect(result).toBe('Group ID: `12345`\nYour ID: `67890`');
     });
 
     it('should not replace placeholders that are not provided', () => {
@@ -117,14 +115,14 @@ describe('Translation System', () => {
     });
 
     it('should handle special characters in replacements', () => {
-      const result = translate('commands.id.groupId', { groupId: '@special!@#$%' });
-      expect(result).toBe('Group ID: `@special!@#$%`');
+      const result = translate('commands.id', { groupId: '@special!@#$%', senderId: 123 });
+      expect(result).toBe('Group ID: `@special!@#$%`\nYour ID: `123`');
     });
 
     it('should handle very long replacement values', () => {
       const longValue = 'a'.repeat(1000);
-      const result = translate('commands.id.groupId', { groupId: longValue });
-      expect(result).toBe(`Group ID: \`${longValue}\``);
+      const result = translate('commands.id', { groupId: longValue, senderId: 123 });
+      expect(result).toBe(`Group ID: \`${longValue}\`\nYour ID: \`123\``);
     });
   });
 
@@ -133,8 +131,8 @@ describe('Translation System', () => {
       // These should compile without TypeScript errors
       expect(() => translate('unauthorized')).not.toThrow();
       expect(() => translate('unsupportedMessageType')).not.toThrow();
-      expect(() => translate('commands.id.groupId')).not.toThrow();
-      expect(() => translate('commands.id.yourId')).not.toThrow();
+      expect(() => translate('commands.id')).not.toThrow();
+      expect(() => translate('commands.help')).not.toThrow();
     });
   });
 });
