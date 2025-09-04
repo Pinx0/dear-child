@@ -3,6 +3,6 @@ import type { TranslationKeys } from './types';
 export const enUS: TranslationKeys = {
   'unauthorized': 'You are not allowed to access this time vault, please ask @{adminAlias} to add you. Your ID is: {senderId}',
   'unsupportedMessageType': 'Only video, audio, photo, video note, and voice messages are supported.',
-  'commands.id.groupId': 'Group ID: `{groupId}`',
-  'commands.id.yourId': 'Your ID: `{senderId}`',
+  'commands.id': 'Group ID: `{groupId}`\nYour ID: `{senderId}`',
+  'commands.help': '💝 *Dear Child - Memory Time Vault*\n\nA private digital time vault for precious childhood memories.\n\nThis bot serves as a secure space where family members can capture and preserve precious moments throughout a child\'s life. When the child turns 18, they receive access to this treasure trove of memories spanning their entire childhood.\n\n✨ *Features:*\n• Private & Secure - Only whitelisted family members\n• Media-Rich - Photos, videos, audio, video notes, voice messages\n• Automatic Storage - All memories saved to private channel\n• Permanent Preservation - Memories remain even if originals are deleted\n• Visual Confirmation - Bot reacts with 👍 to confirm forwarding\n\n💌 *What to send:*\nSend your most precious memories and personal messages for the child:\n• **Photos & Videos** - First steps, birthdays, holidays, everyday moments\n• **Voice Messages** - Tell them how much you love them, share stories, sing lullabies\n• **Video Notes** - Quick personal messages, "I love you" videos, milestone celebrations\n• **Audio Messages** - Record bedtime stories, family traditions, words of wisdom\n\n*Every message becomes a treasure they\'ll discover at 18 - make each one count!*',
 };

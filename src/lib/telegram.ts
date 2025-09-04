@@ -124,10 +124,19 @@ export async function handleCommand(message: Message, requestId: string, senderI
   
   try {
     switch (command) {
+      case '/help':
+        await bot!.api.sendMessage({
+          chat_id: message.chat.id,
+          text: translate('commands.help'),
+          parse_mode: 'Markdown'
+        });
+        log.info('Sent help information', { requestId, senderId, chatId: message.chat.id });
+        return { handled: true };
+      
       case '/id':
         await bot!.api.sendMessage({
           chat_id: message.chat.id,
-          text: `${translate('commands.id.groupId', { groupId: message.chat.id })}\n${translate('commands.id.yourId', { senderId })}`,
+          text: translate('commands.id', { groupId: message.chat.id, senderId }),
           parse_mode: 'Markdown'
         });
         log.info('Sent ID information', { requestId, senderId, chatId: message.chat.id });
