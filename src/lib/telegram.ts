@@ -1,6 +1,7 @@
 import { Bot, Update, Message } from 'gramio';
 import type { TelegramReactionTypeEmojiEmoji } from 'gramio';
 import { log } from './logger';
+import { translate } from './translations';
 
 interface MessageData {
   message: Message;
@@ -72,7 +73,10 @@ export async function sendUnauthorizedMessage(senderId: number, requestId: strin
   try {
     await bot!.api.sendMessage({
       chat_id: senderId,
-      text: `You are not allowed to access this time vault, please ask @${ADMIN_TELEGRAM_ALIAS} to add you. Your ID is: ${senderId}`,
+      text: translate('unauthorized', { 
+        adminAlias: ADMIN_TELEGRAM_ALIAS!, 
+        senderId 
+      }),
     });
   } catch (error) {
     log.error('Failed to send unauthorized message', { requestId, senderId, error: error instanceof Error ? error.message : 'Unknown error' });
@@ -84,7 +88,7 @@ export async function sendUnsupportedMessageType(senderId: number, requestId: st
   try {
     await bot!.api.sendMessage({
       chat_id: senderId,
-      text: 'Only video, audio, photo, video note, and voice messages are supported.',
+      text: translate('unsupportedMessageType'),
     });
   } catch (error) {
     log.error('Failed to send unsupported message type response', { requestId, senderId, error: error instanceof Error ? error.message : 'Unknown error' });
@@ -123,7 +127,7 @@ export async function handleCommand(message: Message, requestId: string, senderI
       case '/id':
         await bot!.api.sendMessage({
           chat_id: message.chat.id,
-          text: `Group ID: \`${message.chat.id}\`\nYour ID: \`${senderId}\``,
+          text: `${translate('commands.id.groupId', { groupId: message.chat.id })}\n${translate('commands.id.yourId', { senderId })}`,
           parse_mode: 'Markdown'
         });
         log.info('Sent ID information', { requestId, senderId, chatId: message.chat.id });
@@ -178,7 +182,6 @@ export async function forwardMessage(message: Message, requestId: string, sender
       errorStack: error instanceof Error ? error.stack : undefined
     });
     
-    // Add thumbs down reaction to indicate forwarding failure
     await addMessageReaction(message, requestId, senderId, '👎');
     
     return { success: false, error: 'Failed to forward message' };
