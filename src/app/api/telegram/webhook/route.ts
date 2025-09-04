@@ -93,7 +93,8 @@ async function processMessage(update: Update, requestId: string): Promise<NextRe
     requestId, 
     senderId, 
     messageType: getMessageType(message),
-    chatId: message.chat.id
+    chatId: message.chat.id,
+    messageId: message.id
   });
 
   return { message, senderId };
