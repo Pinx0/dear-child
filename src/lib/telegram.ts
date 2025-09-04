@@ -68,7 +68,7 @@ export async function sendUnauthorizedMessage(senderId: number, requestId: strin
   try {
     await bot!.api.sendMessage({
       chat_id: senderId,
-      text: `You are not allowed to access this time vault, please ask @${ADMIN_TELEGRAM_ALIAS} to add you.`,
+      text: `You are not allowed to access this time vault, please ask @${ADMIN_TELEGRAM_ALIAS} to add you. Your ID is: ${senderId}`,
     });
   } catch (error) {
     log.error('Failed to send unauthorized message', { requestId, senderId, error: error instanceof Error ? error.message : 'Unknown error' });
@@ -87,6 +87,55 @@ export async function sendUnsupportedMessageType(senderId: number, requestId: st
   }
 }
 
+export async function addMessageReaction(message: Message, requestId: string, senderId: number): Promise<void> {
+  try {
+    await bot!.api.setMessageReaction({
+      chat_id: message.chat.id,
+      message_id: message.id,
+      reaction: [{ type: 'emoji', emoji: '👍' }]
+    });
+  } catch (error) {
+    log.warn('Failed to add reaction to message', { 
+      requestId, 
+      senderId, 
+      error: error instanceof Error ? error.message : 'Unknown error' 
+    });
+  }
+}
+
+export function isCommand(message: Message): boolean {
+  return !!(message.text && message.text.startsWith('/'));
+}
+
+export async function handleCommand(message: Message, requestId: string, senderId: number): Promise<{ handled: boolean; error?: string }> {
+  if (!message.text) {
+    return { handled: false };
+  }
+
+  const command = message.text.split(' ')[0].toLowerCase();
+  
+  try {
+    switch (command) {
+      case '/id':
+        await bot!.api.sendMessage({
+          chat_id: message.chat.id,
+          text: `Group ID: \`${message.chat.id}\`\nYour ID: \`${senderId}\``,
+          parse_mode: 'Markdown'
+        });
+        log.info('Sent ID information', { requestId, senderId, chatId: message.chat.id });
+        return { handled: true };
+      
+      default:
+        log.info('Unknown command received', { requestId, senderId, command });
+        return { handled: false };
+    }
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    log.error('Failed to handle command', { requestId, senderId, command, error: errorMessage });
+    return { handled: true, error: 'Failed to process command' };
+  }
+}
+
 export async function forwardMessage(message: Message, requestId: string, senderId: number, messageType: string): Promise<{ success: boolean; error?: string }> {
   try {
     log.info('Forwarding message to channel', { requestId, senderId, messageType, channelId: FORWARD_CHANNEL_ID });
@@ -97,27 +146,15 @@ export async function forwardMessage(message: Message, requestId: string, sender
       message_id: message.id,
     });
 
-    // Add reaction to confirm successful forwarding
-    try {
-      await bot!.api.setMessageReaction({
-        chat_id: message.chat.id,
-        message_id: message.id,
-        reaction: [{ type: 'emoji', emoji: '👍' }]
-      });
-    } catch (reactionError) {
-      log.warn('Failed to add reaction to original message', { 
+    log.info('Message forwarded successfully', { 
         requestId, 
         senderId, 
-        error: reactionError instanceof Error ? reactionError.message : 'Unknown error' 
+        messageType, 
+        forwardedMessageId: forwardResult.message_id 
       });
-    }
 
-    log.info('Message forwarded successfully', { 
-      requestId, 
-      senderId, 
-      messageType, 
-      forwardedMessageId: forwardResult.message_id 
-    });
+    await addMessageReaction(message, requestId, senderId);
+
     return { success: true };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';

@@ -9,7 +9,9 @@ import {
   getMessageType,
   sendUnauthorizedMessage,
   sendUnsupportedMessageType,
-  forwardMessage
+  forwardMessage,
+  isCommand,
+  handleCommand
 } from '@/lib/telegram';
 
 
@@ -30,6 +32,15 @@ export async function POST(request: NextRequest) {
     }
 
     const { message, senderId } = messageResult;
+    
+    // Handle commands first (no authorization required for basic commands)
+    if (isCommand(message)) {
+      const commandResult = await handleCommand(message, requestId, senderId);
+      if (commandResult.handled) {
+        return NextResponse.json({ success: true });
+      }
+    }
+
     const authResponse = await handleAuthorization(senderId, requestId);
     if (authResponse) {
       return authResponse;
