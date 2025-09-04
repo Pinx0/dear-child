@@ -40,14 +40,14 @@ describe('Language Validation', () => {
     });
 
     it('should fallback to English for null/undefined language', () => {
-      mockEnv.LANGUAGE = null as any;
+      mockEnv.LANGUAGE = null as unknown as string;
       expect(translate('unauthorized')).toContain('You are not allowed');
     });
   });
 
   describe('Environment Variable Handling', () => {
     it('should use default language when LANGUAGE env var is not set', () => {
-      mockEnv.LANGUAGE = undefined as any;
+      mockEnv.LANGUAGE = undefined as unknown as string;
       expect(translate('unauthorized')).toContain('You are not allowed');
     });
 

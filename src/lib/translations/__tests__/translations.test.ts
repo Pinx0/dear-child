@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { translate, type SupportedLanguage } from '../../translations';
+import { translate } from '../../translations';
 
 // Mock environment variables
 const mockEnv = vi.hoisted(() => ({
@@ -85,7 +85,7 @@ describe('Translation System', () => {
     });
 
     it('should fallback to English when language is undefined', () => {
-      mockEnv.LANGUAGE = undefined as any;
+      mockEnv.LANGUAGE = undefined as unknown as string;
       
       expect(translate('unauthorized')).toBe('You are not allowed to access this time vault, please ask @{adminAlias} to add you. Your ID is: {senderId}');
     });
@@ -99,12 +99,12 @@ describe('Translation System', () => {
 
   describe('Invalid Keys', () => {
     it('should return the key itself when translation is not found', () => {
-      const invalidKey = 'nonexistent.key' as any;
+      const invalidKey = 'nonexistent.key' as never;
       expect(translate(invalidKey)).toBe('nonexistent.key');
     });
 
     it('should handle empty key gracefully', () => {
-      expect(translate('' as any)).toBe('');
+      expect(translate('' as never)).toBe('');
     });
   });
 
