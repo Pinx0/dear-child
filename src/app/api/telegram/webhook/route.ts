@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import type { Update, Message } from 'gramio';
+import { Update, Message } from 'gramio';
 import { log } from '@/lib/logger';
 import {
   validateConfig,
@@ -25,7 +25,18 @@ export async function POST(request: NextRequest) {
       return validationError;
     }
 
-    const update: Update = await request.json();
+    const rawUpdate = await request.json();
+    log.info('Raw update received', { 
+      requestId, 
+      updateId: rawUpdate.update_id,
+      hasMessage: !!rawUpdate.message,
+      messageId: rawUpdate.message?.message_id,
+      messageIdAlt: rawUpdate.message?.id,
+      rawMessage: rawUpdate.message
+    });
+    
+    const update = new Update(rawUpdate);
+    
     const messageResult = await processMessage(update, requestId);
     if (messageResult instanceof NextResponse) {
       return messageResult;

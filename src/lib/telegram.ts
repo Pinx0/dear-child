@@ -1,5 +1,5 @@
-import { Bot } from 'gramio';
-import type { Update, Message, TelegramReactionTypeEmojiEmoji } from 'gramio';
+import { Bot, Update, Message } from 'gramio';
+import type { TelegramReactionTypeEmojiEmoji } from 'gramio';
 import { log } from './logger';
 
 interface MessageData {
@@ -43,13 +43,15 @@ export function validateMessage(update: Update): { isValid: boolean; data?: Mess
     return { isValid: false, error: 'Non-message update' };
   }
 
-  const senderId = update.message.from?.id;
+  const message = new Message(update.message.payload);
+  
+  const senderId = message.from?.id;
   if (!senderId) {
-    log.warn('Invalid message structure - missing sender ID', { message: update.message });
+    log.warn('Invalid message structure - missing sender ID', { message: message.payload });
     return { isValid: false, error: 'Invalid message structure' };
   }
 
-  return { isValid: true, data: { message: update.message, senderId } };
+  return { isValid: true, data: { message, senderId } };
 }
 
 export function isAuthorized(senderId: number): boolean {
